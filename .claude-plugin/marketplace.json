@@ -1,0 +1,18 @@
+{
+  "name": "mathproven",
+  "owner": {
+    "name": "OpenSlot LLC",
+    "email": "support@mathproven.com"
+  },
+  "metadata": {
+    "description": "Mathproven's checked paperwork math for AI assistants, from OpenSlot LLC."
+  },
+  "plugins": [
+    {
+      "name": "mathproven",
+      "source": "./",
+      "description": "Checked paperwork math from Mathproven that runs where your assistant runs: prove the math, nonprofits and churches, trucking fuel tax, crypto proceeds and gains, bookkeepers and accountants, construction subcontractors, E-commerce sellers, insurance agency commissions, law firm trust accounts, property managers. Each result is recomputed a second way and comes with a reconciliation certificate, or names the check that failed. Nothing is sent to Mathproven.",
+      "version": "0.1.1"
+    }
+  ]
+}

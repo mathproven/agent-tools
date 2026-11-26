@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "mathproven": {
+      "command": "node",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/server/mcp.mjs"
+      ]
+    },
+    "mathproven-reference": {
+      "type": "http",
+      "url": "https://mathproven.com/api/agents/mcp"
+    }
+  }
+}

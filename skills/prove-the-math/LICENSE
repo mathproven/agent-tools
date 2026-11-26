@@ -1,0 +1,15 @@
+Copyright 2026 OpenSlot LLC. All rights reserved.
+
+OpenSlot LLC grants you a free, non-exclusive, non-transferable licence to install
+this package (its skills and its local server) and use it with Mathproven's tools,
+and to read its source. You may not redistribute it, sell it, sublicense it, or
+publish copies or changed versions of it.
+
+The third-party code bundled in it is under its own licence; see
+THIRD-PARTY-NOTICES.
+
+The package is provided "as is", without warranty of any kind. Mathproven
+calculates and verifies; it does not give legal, tax, accounting or financial
+advice. The terms of use are at https://mathproven.com/terms/.
+
+Mathproven is a product of OpenSlot LLC. Contact: support@mathproven.com

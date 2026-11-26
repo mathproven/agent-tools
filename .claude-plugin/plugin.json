@@ -1,0 +1,34 @@
+{
+  "name": "mathproven",
+  "displayName": "Mathproven",
+  "version": "0.1.1",
+  "description": "Checked paperwork math from Mathproven that runs where your assistant runs: prove the math, nonprofits and churches, trucking fuel tax, crypto proceeds and gains, bookkeepers and accountants, construction subcontractors, E-commerce sellers, insurance agency commissions, law firm trust accounts, property managers. Each result is recomputed a second way and comes with a reconciliation certificate, or names the check that failed. Nothing is sent to Mathproven.",
+  "author": {
+    "name": "OpenSlot LLC",
+    "email": "support@mathproven.com",
+    "url": "https://mathproven.com"
+  },
+  "homepage": "https://mathproven.com/agents/?ref=marketplace-claude-plugin",
+  "repository": "https://github.com/mathproven/agent-tools",
+  "license": "LicenseRef-OpenSlot-Proprietary",
+  "keywords": [
+    "reconciliation",
+    "verified math",
+    "spreadsheets",
+    "prove-the-math",
+    "nonprofits-and-churches",
+    "trucking-fuel-tax",
+    "crypto-proceeds-and-gains",
+    "bookkeepers-and-accountants",
+    "construction-subcontractors",
+    "e-commerce-sellers",
+    "insurance-agency-commissions",
+    "law-firm-trust-accounts",
+    "property-managers"
+  ],
+  "documentationUrl": "https://mathproven.com/agents/?ref=marketplace-claude-plugin",
+  "supportUrl": "https://mathproven.com/support/?ref=marketplace-claude-plugin",
+  "privacyPolicyUrl": "https://mathproven.com/privacy/?ref=marketplace-claude-plugin",
+  "termsOfServiceUrl": "https://mathproven.com/terms/?ref=marketplace-claude-plugin",
+  "icon": "./icon.png"
+}

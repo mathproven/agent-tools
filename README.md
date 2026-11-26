@@ -1,0 +1,50 @@
+# Mathproven tools for AI assistants
+
+Mathproven's paperwork math, for AI assistants: 86 tool(s) in 10 skill(s). Each tool runs the same calculations as its page on mathproven.com, proves its totals a second way, and returns the result with a reconciliation certificate, or says NOT VERIFIED and names the check that failed. Mathproven is a product of OpenSlot LLC.
+
+## What runs, and what is sent
+
+- Each skill's script (`skills/<skill>/scripts/mathproven.mjs`) is plain JavaScript that Node.js runs where the assistant runs: on the person's computer, or in the assistant's own sandbox (as in claude.ai chat or ChatGPT).
+- The local MCP server (`server/mcp.mjs`) is plain JavaScript that Node.js runs on the person's computer, started by their app.
+- They read only the files a command or a tool call names.
+- They write only a file that a `saveTo` input names, or a template's blank workbook, never over an existing file; and, in the local server, one small count of the month's free runs (`runs.json` in the plugin's data folder, or in `~/.mathproven/` outside a plugin), which holds tool names and numbers only.
+- They make no network request and send nothing to Mathproven, or to anyone else. They log nothing.
+- `.mcp.json` also names Mathproven's hosted reference endpoint, https://mathproven.com/api/agents/mcp. It is separate from the scripts: it answers from Mathproven's sourced lookup tables and takes only a table's name, a member's code (a state, say) and a date, never a file or a figure from one.
+- In this plugin the local server leaves the lookup tables out: the hosted endpoint in `.mcp.json` answers them, so each table is one tool, not two. The npm package's server (`@mathproven/mcp`), for apps with no hosted entry, carries them. Each skill's script carries its own section's tables either way.
+
+## Install
+
+- Claude Code: `/plugin marketplace add mathproven/agent-tools`, then `/plugin install mathproven@mathproven`.
+- Any assistant that loads Agent Skills, through skills.sh: `npx skills add mathproven/agent-tools`.
+- The local MCP server for any MCP app, from npm: `npm install -g @mathproven/mcp`, then add `mathproven-mcp` as a stdio server (in the app's MCP settings: command `mathproven-mcp`).
+
+## Free runs, and a key
+
+- Without a key, a tool reads one file a run (two for merge monthly bank statement exports into one ledger), as the free plan on mathproven.com does.
+- The local server also counts free runs, as the site does: 3 runs of each tool a month. The count is per computer and per installed copy: the plugin and the npm package each keep their own. A count file that is damaged or cannot be written allows the run. A skill's script cannot keep a count between sessions, so it keeps none. The general check, the lookup tables and the blank templates have no monthly count.
+- With a key copied from a Mathproven account page, the account's plan applies, as on the site. A skill's script takes it only as `--key <key>`; the local server reads it from the `MATHPROVEN_KEY` environment variable set in the app's MCP settings, or from a `key` argument. It is checked here against Mathproven's public key and is never sent anywhere.
+
+## The skills
+
+- **Prove the math** (`skills/prove-the-math`): Check that a total equals the sum of its parts; Cross-foot a table: rows to row totals, columns to the totals row; Reconcile two lists: matched, unmatched and differing items.
+- **Nonprofits and churches** (`skills/nonprofits-and-churches`): Donor retention rate from a gift list; Year-end giving statements from a gift list; Gift acknowledgment checklist: gift records with blank fields; Donor de-duplication: find duplicate donor records, merge with proof; Donor upgrades and downgrades: who gave more or less than last year; Gift log workbook for tracking donations (Excel template); Giving by fund and month from a gift list; LYBUNT and SYBUNT report: donors who gave last year, not this year; Part-gift (quid pro quo) payments split by the value received; Charity audit, review and compilation thresholds by state; Charity registration renewal due-date rules by state.
+- **Trucking fuel tax** (`skills/trucking-fuel-tax`): Quarterly fuel tax worksheet from miles and fuel-card files; Fuel-card statement to a fuel ledger by jurisdiction and unit; Miles per gallon by truck from a miles file and a fuel file; Trucking cost per mile, fixed and variable; Mileage and fuel log workbook for a quarter (Excel); Quarterly fuel tax rates, third quarter 2026: diesel by jurisdiction.
+- **Crypto proceeds and gains** (`skills/crypto-proceeds-and-gains`): Crypto capital gains worksheet, lot by lot, from an exchange export; Crypto proceeds tie-out: an export against a broker statement; Short-term and long-term split of a crypto gains worksheet; Average cost per coin across several purchases; Blank crypto trade log workbook (Excel); Long-term capital gains rate thresholds (0%, 15%, 20%) by filing status.
+- **Bookkeepers and accountants** (`skills/bookkeepers-and-accountants`): Bank reconciliation statement: adjusted bank and book balances; Blank bank reconciliation workbook (Excel) to fill in; Find the rows that make a bank reconciliation not balance; Duplicate transactions in a bank, card or ledger export; Bank or card statement rows to a checked table; Bank statement rows to an OFX file and row-limited import CSVs; Merge monthly bank statement exports into one ledger; Petty cash reconciliation: count, receipts, over or short; Uncashed checks by state and dormancy end date; Uncashed check dormancy periods by state (vendor and payroll checks); Unclaimed property owner notice windows before the annual report, by state.
+- **Construction subcontractors** (`skills/construction-subcontractors`): Subcontractor pay application from a schedule of values; Pay application checker: math errors in a schedule of values; Blank pay application spreadsheet with a schedule of values; Schedule of values that adds up to the contract; Progress billing statement by percent complete or milestones; Retainage on one invoice, step by step; Retainage tracker and retainage release invoice; Lien waiver, conditional or unconditional, progress or final; Late payment interest on a progress or retainage payment; Over/under billing (WIP schedule) for a list of jobs; Prevailing wage fringe credit (fringe benefit annualization); State prompt payment deadlines for construction, with late-payment interest; State retainage limits on public and private construction jobs.
+- **E-commerce sellers** (`skills/e-commerce-sellers`): Monthly books from a marketplace payment or ledger export; Journal entry for one marketplace payout, matched to the bank deposit; Sales tax collected by ship-to state from an order export; Sales by product from an orders export; Online seller bookkeeping workbook (Excel template); Profit, margin and break-even price on one item sold online; Economic nexus thresholds for remote sellers, by state.
+- **Insurance agency commissions** (`skills/insurance-agency-commissions`): Insurance commission on one policy, with the chargeback on a cancellation; Commission statement to clean rows, tied to the statement total; Commission summary by carrier and line of business, tied to each statement; Insurance commission tracking workbook for one month (Excel); Insurance commission reconciliation: expected from the book against paid on the statement; Missing insurance commissions: policies with no statement line, aged by days; Producer commission splits on paid lines, to the cent, with payout statements; Surplus lines premium tax on a policy list, with totals by home state; Surplus lines premium tax rates by state; Surplus lines stamping fees by state and policy effective date.
+- **Law firm trust accounts** (`skills/law-firm-trust-accounts`): Three-way trust account reconciliation to the cent; Client trust ledger card: one client, balance after every line; Trust receipts and disbursements journal with client subtotals; Trust account scan for client ledgers below zero, by date; Client trust ledgers rebuilt from a bank statement export; Earned fees left in trust: billed fees not transferred, by client and age; Dormant trust balances: client balances with no activity, by age; Three-way trust reconciliation workbook to fill in; Lawyer trust account record retention periods by state.
+- **Property managers** (`skills/property-managers`): CAM reconciliation: common area costs split by tenant square footage; CAM gross-up: variable expenses grossed up to an occupancy, then split by tenant share; Base year and expense stop: each tenant’s share of operating expenses above the base; Owner statement for a managed rental from a ledger; Security deposit interest and itemized deposit statement; Short-term rental payouts matched to bank deposits; CAM reconciliation template workbook (Excel) to fill in; Owner statement template workbook (Excel) with a ledger sheet; Residential rent late fee limits and grace periods by state; Residential security deposit rules by state: maximum, return period, interest.
+
+## How it is built
+
+The scripts are bundled with esbuild from the TypeScript source of Mathproven's core and agents packages. They are not minified: names, text and structure are kept, and a `// packages/...` line names the source file of the code after it. Each runtime is split into files under 256 KiB, and each skill folder carries its own copy, so a skill installed on its own still runs.
+
+The one third-party library inside is fflate (MIT), which reads and writes the .xlsx container; its licence is in THIRD-PARTY-NOTICES.
+
+## Licence and support
+
+Copyright 2026 OpenSlot LLC. See LICENSE. Mathproven calculates and verifies; it does not give legal, tax, accounting or financial advice.
+
+Documentation: https://mathproven.com/agents/?ref=marketplace-claude-plugin. Support: support@mathproven.com. Privacy: https://mathproven.com/privacy/?ref=marketplace-claude-plugin.
