@@ -6,7 +6,7 @@
         "${CLAUDE_PLUGIN_ROOT}/server/mcp.mjs"
       ],
       "env": {
-        "MATHPROVEN_KEY": "${user_config.mathproven_key}"
+        "CLAUDE_PLUGIN_OPTION_MATHPROVEN_KEY": "${user_config.mathproven_key}"
       }
     },
     "mathproven-reference": {

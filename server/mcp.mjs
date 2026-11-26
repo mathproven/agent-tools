@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Mathproven agent tools 0.1.2. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
+// Mathproven agent tools 0.1.3. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
 // Built by scripts/build-plugin.mjs with esbuild from the TypeScript source of Mathproven's core and agents
 // packages: bundled, not minified. Each "// packages/..." line names the source file of the code after it.
 // It makes no network request and sends nothing anywhere.
@@ -508,7 +508,10 @@ function settingValue(value) {
   return /^\$\{[^}]*\}$/.test(v) ? "" : v;
 }
 function serverSettings() {
-  return { key: settingValue(process.env.MATHPROVEN_KEY), pluginData: settingValue(process.env.CLAUDE_PLUGIN_DATA) };
+  const pluginKey = settingValue(process.env.CLAUDE_PLUGIN_OPTION_MATHPROVEN_KEY);
+  const appKey = settingValue(process.env.MATHPROVEN_KEY);
+  const pluginData = settingValue(process.env.CLAUDE_PLUGIN_DATA);
+  return { key: pluginKey || appKey, pluginData };
 }
 function errorMessage(id, code, message, data) {
   return { jsonrpc: "2.0", id, error: data === void 0 ? { code, message } : { code, message, data } };
@@ -2490,4 +2493,4 @@ var NOT_FOR_AGENTS = [
 // mp-entry:mp-entry:main
 var all = [...ENTRIES];
 var entries = all.filter((e) => e.kind !== "lookup");
-runMcpProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.2" });
+runMcpProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.3" });
