@@ -1,7 +1,7 @@
 {
   "name": "mathproven",
   "displayName": "Mathproven",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Checked paperwork math from Mathproven that runs where your assistant runs: prove the math, nonprofits and churches, trucking fuel tax, crypto proceeds and gains, bookkeepers and accountants, construction subcontractors, E-commerce sellers, insurance agency commissions, law firm trust accounts, property managers. Each result is recomputed a second way and comes with a reconciliation certificate, or names the check that failed. Nothing is sent to Mathproven.",
   "author": {
     "name": "OpenSlot LLC",
@@ -30,5 +30,14 @@
   "supportUrl": "https://mathproven.com/support/?ref=marketplace-claude-plugin",
   "privacyPolicyUrl": "https://mathproven.com/privacy/?ref=marketplace-claude-plugin",
   "termsOfServiceUrl": "https://mathproven.com/terms/?ref=marketplace-claude-plugin",
-  "icon": "./icon.png"
+  "icon": "./icon.png",
+  "userConfig": {
+    "mathproven_key": {
+      "type": "string",
+      "title": "Mathproven key",
+      "description": "Optional. The key from a Mathproven account page, for the account's plan in the local server's tools. Checked on this computer against Mathproven's public key and never sent anywhere. Leave it empty for the free plan.",
+      "required": false,
+      "sensitive": true
+    }
+  }
 }

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Mathproven agent tools 0.1.1. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.
+// Mathproven agent tools 0.1.2. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
 // Built by scripts/build-plugin.mjs with esbuild from the TypeScript source of Mathproven's core and agents
 // packages: bundled, not minified. Each "// packages/..." line names the source file of the code after it.
 // It makes no network request and sends nothing anywhere.
@@ -113,8 +113,8 @@ import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync 
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 var TOOL_NAME = /^[a-z][a-z0-9_]{0,63}$/;
-function countFilePath(env = process.env, home = homedir()) {
-  const data = (env.CLAUDE_PLUGIN_DATA ?? "").trim();
+function countFilePath(pluginData, home = homedir()) {
+  const data = (pluginData ?? "").trim();
   if (data !== "") return join(data, "runs.json");
   return join(home, ".mathproven", "runs.json");
 }
@@ -503,6 +503,13 @@ function toolOf(entry) {
     annotations: { title: entry.title, readOnlyHint: true, destructiveHint: false, openWorldHint: false }
   };
 }
+function settingValue(value) {
+  const v = (value ?? "").trim();
+  return /^\$\{[^}]*\}$/.test(v) ? "" : v;
+}
+function serverSettings() {
+  return { key: settingValue(process.env.MATHPROVEN_KEY), pluginData: settingValue(process.env.CLAUDE_PLUGIN_DATA) };
+}
 function errorMessage(id, code, message, data) {
   return { jsonrpc: "2.0", id, error: data === void 0 ? { code, message } : { code, message, data } };
 }
@@ -517,8 +524,9 @@ var McpServer = class {
   constructor(options) {
     this.options = options;
     this.version = options.version ?? AGENTS_VERSION;
-    this.env = options.env ?? process.env;
-    this.counter = options.counter ?? new FileRunCounter(countFilePath(this.env));
+    const settings = options.settings ?? serverSettings();
+    this.key = settingValue(settings.key);
+    this.counter = options.counter ?? new FileRunCounter(countFilePath(settingValue(settings.pluginData)));
     this.now = options.now ?? (() => /* @__PURE__ */ new Date());
     this.byName = new Map(options.entries.map((e) => [e.name, e]));
     this.tools = options.entries.map(toolOf);
@@ -526,7 +534,7 @@ var McpServer = class {
   tools;
   byName;
   version;
-  env;
+  key;
   counter;
   now;
   serverInfo() {
@@ -595,7 +603,6 @@ var McpServer = class {
       return { content: [{ type: "text", text: text2 }], structuredContent: { tool: entry.name, verified: false, refused: true, message: text2 }, isError: true };
     }
     ensureWebCrypto();
-    const envKey = (this.env.MATHPROVEN_KEY ?? "").trim();
     const ctx = {
       now: this.now(),
       ref: this.options.ref,
@@ -604,7 +611,7 @@ var McpServer = class {
       saveProblem,
       writeFile: saveFile,
       counter: this.counter,
-      ...envKey !== "" ? { key: envKey } : {}
+      ...this.key !== "" ? { key: this.key } : {}
     };
     const outcome = await runEntry(entry, args, ctx);
     const structuredContent = outcome.structured ?? { tool: entry.name, verified: false, refused: true, message: outcome.text };
@@ -2481,5 +2488,6 @@ var NOT_FOR_AGENTS = [
 ];
 
 // mp-entry:mp-entry:main
-var entries = ENTRIES.filter((e) => e.kind !== "lookup");
-runMcpProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.1" });
+var all = [...ENTRIES];
+var entries = all.filter((e) => e.kind !== "lookup");
+runMcpProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.2" });

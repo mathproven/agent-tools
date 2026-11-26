@@ -1,4 +1,4 @@
-// Mathproven agent tools 0.1.1. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.
+// Mathproven agent tools 0.1.2. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
 // Built by scripts/build-plugin.mjs with esbuild from the TypeScript source of Mathproven's core and agents
 // packages: bundled, not minified. Each "// packages/..." line names the source file of the code after it.
 // It makes no network request and sends nothing anywhere.
@@ -867,4 +867,4 @@ function lookupEntries() {
 var pool = [...INSURANCE_COMMISSIONS, ...lookupEntries()];
 var names = ["insurance_commission_calculator", "commission_statement_to_excel", "commission_summary_by_carrier", "commission_tracking_template", "commission_expected_vs_paid_reconciliation", "missing_insurance_commission_finder", "producer_commission_split_calculator", "surplus_lines_tax_on_policy_list", "surplus_lines_tax_rates", "surplus_lines_stamping_fees"];
 var entries = names.map((name) => pool.find((e) => e.name === name)).filter((e) => e !== void 0);
-runCliProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.1", keyHelp: "A Mathproven key, when there is one: --key <key>. It is checked here, against Mathproven's public key, and never sent anywhere." });
+runCliProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.2", keyHelp: "A Mathproven key, when there is one: --key <key>. It is checked here, against Mathproven's public key, and never sent anywhere." });

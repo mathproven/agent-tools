@@ -1,13 +1,12 @@
-THIRD-PARTY NOTICES
+# Third-party notices
 
-The scripts in this package are bundled from Mathproven's own source and the following
-open-source package(s), each under its own licence, reproduced here as that licence asks.
+The scripts in this package are bundled from Mathproven's own source and the following open-source package(s), each under its own licence, reproduced here as that licence asks.
 
-------------------------------------------------------------------------
+## fflate 0.8.3 (MIT)
 
-fflate 0.8.3 (MIT)
-https://github.com/101arrowz/fflate
+Source: <https://github.com/101arrowz/fflate>
 
+```text
 MIT License
 
 Copyright (c) 2026 Arjun Barrett
@@ -29,4 +28,4 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
+```

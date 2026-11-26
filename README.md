@@ -22,7 +22,7 @@ Mathproven's paperwork math, for AI assistants: 86 tool(s) in 10 skill(s). Each 
 
 - Without a key, a tool reads one file a run (two for merge monthly bank statement exports into one ledger), as the free plan on mathproven.com does.
 - The local server also counts free runs, as the site does: 3 runs of each tool a month. The count is per computer and per installed copy: the plugin and the npm package each keep their own. A count file that is damaged or cannot be written allows the run. A skill's script cannot keep a count between sessions, so it keeps none. The general check, the lookup tables and the blank templates have no monthly count.
-- With a key copied from a Mathproven account page, the account's plan applies, as on the site. A skill's script takes it only as `--key <key>`; the local server reads it from the `MATHPROVEN_KEY` environment variable set in the app's MCP settings, or from a `key` argument. It is checked here against Mathproven's public key and is never sent anywhere.
+- With a key copied from a Mathproven account page, the account's plan applies, as on the site. A skill's script takes it only as `--key <key>`. In this plugin the local server takes it from the plugin's optional "Mathproven key" setting (`mathproven_key`), which Claude Code asks for when the plugin is enabled (and again with `/plugin configure`), masks as it is typed and keeps in the system's secure credential store; `.mcp.json` hands it to the server as `MATHPROVEN_KEY`. The server also takes a `key` argument. Of its environment the server reads only `MATHPROVEN_KEY` and `CLAUDE_PLUGIN_DATA`, the plugin's data folder. The key is checked here against Mathproven's public key and is never sent anywhere.
 
 ## The skills
 
@@ -41,7 +41,7 @@ Mathproven's paperwork math, for AI assistants: 86 tool(s) in 10 skill(s). Each 
 
 The scripts are bundled with esbuild from the TypeScript source of Mathproven's core and agents packages. They are not minified: names, text and structure are kept, and a `// packages/...` line names the source file of the code after it. Each runtime is split into files under 256 KiB, and each skill folder carries its own copy, so a skill installed on its own still runs.
 
-The one third-party library inside is fflate (MIT), which reads and writes the .xlsx container; its licence is in THIRD-PARTY-NOTICES.
+The one third-party library inside is fflate (MIT), which reads and writes the .xlsx container; its licence is in THIRD-PARTY-NOTICES.md.
 
 ## Licence and support
 

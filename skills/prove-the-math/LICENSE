@@ -6,7 +6,7 @@ and to read its source. You may not redistribute it, sell it, sublicense it, or
 publish copies or changed versions of it.
 
 The third-party code bundled in it is under its own licence; see
-THIRD-PARTY-NOTICES.
+THIRD-PARTY-NOTICES.md.
 
 The package is provided "as is", without warranty of any kind. Mathproven
 calculates and verifies; it does not give legal, tax, accounting or financial

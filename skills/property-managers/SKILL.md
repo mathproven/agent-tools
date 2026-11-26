@@ -5,7 +5,7 @@ license: "Proprietary. See LICENSE in this folder."
 compatibility: "Needs Node.js 18 or later and nothing else. Runs offline: it reads only the files a command names and sends nothing to Mathproven."
 metadata:
   author: "OpenSlot LLC"
-  version: "0.1.1"
+  version: "0.1.2"
   homepage: "https://mathproven.com/agents/?ref=marketplace-claude-plugin"
 ---
 
