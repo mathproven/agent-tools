@@ -1,4 +1,4 @@
-// Mathproven agent tools 0.1.3. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
+// Mathproven agent tools 0.1.4. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
 // Built by scripts/build-plugin.mjs with esbuild from the TypeScript source of Mathproven's core and agents
 // packages: bundled, not minified. Each "// packages/..." line names the source file of the code after it.
 // It makes no network request and sends nothing anywhere.
@@ -903,6 +903,7 @@ var gains = /* @__PURE__ */ (() => ({
   pageTitle: "Long-Term Capital Gains Brackets 2025 to 2027: 0%, 15%, 20% Thresholds",
   description: `The federal taxable income lines where the 0%, 15% and 20% rates on long-term capital gains (crypto held more than one year included) begin, by filing status, for tax years ${GAINS_YEARS_TEXT}, each read from the IRS revenue procedure, with the net investment income tax threshold for the status. Use it when someone asks the long-term capital gains brackets or the 0% gains limit for a tax year and filing status.`,
   question: "What are the 2026 long-term capital gains brackets for married filing jointly?",
+  subject: "long-term capital gains rate thresholds by tax year and filing status",
   notAdvice: "Mathproven gives thresholds only; it does not say what to report or file. Mathproven is not affiliated with the IRS or any agency whose documents are cited here.",
   memberNoun: { one: "tax year and filing status", many: "tax years and filing statuses" },
   memberHelp: `a filing status: S (single), MFJ (married filing jointly or surviving spouse), MFS (married filing separately) or HOH (head of household), with the tax year taken from the date; or a tax year and status together, such as 2026-MFJ (tax years ${GAINS_YEARS_TEXT})`,
@@ -1119,6 +1120,7 @@ function entryFor(t) {
     title: t.title,
     description: `${t.description} ${ANSWER_LINE}`,
     question: t.question,
+    subject: t.subject,
     inputs: [memberInput(t), dateInput(t)],
     limits: "free",
     notAdvice: t.notAdvice,
@@ -1148,4 +1150,4 @@ function lookupEntries() {
 var pool = [...CRYPTO, ...lookupEntries()];
 var names = ["crypto_capital_gains_worksheet", "crypto_proceeds_tie_out", "crypto_holding_period_split", "crypto_average_cost_per_coin", "crypto_trade_log_template", "capital_gains_rate_thresholds"];
 var entries = names.map((name) => pool.find((e) => e.name === name)).filter((e) => e !== void 0);
-runCliProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.3", keyHelp: "A Mathproven key, when there is one: --key <key>. It is checked here, against Mathproven's public key, and never sent anywhere." });
+runCliProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.4", keyHelp: "A Mathproven key, when there is one: --key <key>. It is checked here, against Mathproven's public key, and never sent anywhere." });

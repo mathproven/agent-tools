@@ -1,6 +1,6 @@
 # Insurance agency commissions: the tools
 
-Each tool runs with `node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs <tool> ...` (see SKILL.md). Without a key, a tool reads one file a run.
+Each tool runs with one command on one line, `node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs <tool> --<input> <value> ...` (see SKILL.md). Without a key, a tool reads one file a run.
 
 ## Insurance commission on one policy, with the chargeback on a cancellation (`insurance_commission_calculator`)
 

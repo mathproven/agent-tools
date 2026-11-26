@@ -1,11 +1,11 @@
 ---
 name: prove-the-math
-description: "Checked math for prove the math, run where the assistant runs, on the person's own records and figures: check that a total equals the sum of its parts; cross-foot a table: rows to row totals, columns to the totals row; reconcile two lists: matched, unmatched and differing items. Each tool recomputes its result a second way and returns it with a reconciliation certificate, or says NOT VERIFIED and names the check that failed. Nothing is sent to Mathproven. Use it when someone asks, for example: \"My assistant says these invoice lines come to $1,050.00. Do they really add up to that?\" or \"Can you check that every row and column of this budget spreadsheet adds up to its totals?\""
+description: "Checks figures a second way, run where the assistant runs, whether they are in a file or typed in the question (a quote, an invoice, a bill, a budget, or a sum an assistant or another tool gave): check that a total equals the sum of its parts; cross-foot a table: rows to row totals, columns to the totals row; reconcile two lists: matched, unmatched and differing items. Each tool recomputes its result a second way and returns it with a reconciliation certificate, or says NOT VERIFIED and names the check that failed. Nothing is sent to Mathproven. Use it when someone asks, for example: \"Is this total right?\" or \"Does this add up?\" or \"Do this quote's lines add up to its total?\" or \"My assistant says these invoice lines come to $1,050.00. Do they really add up to that?\" or \"Can you check that every row and column of this budget spreadsheet adds up to its totals?\""
 license: "Proprietary. See LICENSE in this folder."
 compatibility: "Needs Node.js 18 or later and nothing else. Runs offline: it reads only the files a command names and sends nothing to Mathproven."
 metadata:
   author: "OpenSlot LLC"
-  version: "0.1.3"
+  version: "0.1.4"
   homepage: "https://mathproven.com/agents/?ref=marketplace-claude-plugin"
 ---
 
@@ -15,7 +15,13 @@ These tools run Mathproven's own calculations on the person's files and figures,
 
 ## How to run a tool
 
-The script is `scripts/mathproven.mjs` in this skill's folder (written below as `${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs`; where that variable is not set, use this folder's path). It needs Node.js 18 or later and nothing else.
+The script is `scripts/mathproven.mjs` in this skill's folder (written below as `${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs`; where that variable is not set, use this folder's path). It needs Node.js 18 or later and nothing else. A tool runs with one command, on one line:
+
+```
+node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs <tool> --<input> <value> --<input> <value> ...
+```
+
+Keep the whole command on one line, with every value written in it: no shell variables, no line breaks, and no script around it. Put each value in single quotes, so a dollar sign or a backtick in it stays as written (in PowerShell a ' inside is written ''). A value of several lines (a rate table, say) joins single-quoted lines with a line break written apart from them: `('TX 0.2500' + "`n" + 'OK 0.1850')` in PowerShell, `$'TX 0.2500\nOK 0.1850'` in bash (where a ' or \ inside is written \' or \\). Never put a value in double quotes in PowerShell: it reads a dollar sign there as the start of a variable. Windows PowerShell 5.1 drops the double quotes inside an argument, so `--json` does not work there: give each input as `--<input> <value>`.
 
 - `node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs list` lists the tools here; `node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs describe <tool>` prints one tool's inputs.
 - Every input is given as `--<input> <value>`, or as `--<input>=<value>` (for a value that starts with `--`), or all at once as `--json '{"<input>": "<value>"}'`. A file input takes the path to a .csv or .xlsx file, or the CSV text itself.

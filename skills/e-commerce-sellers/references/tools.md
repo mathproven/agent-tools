@@ -1,6 +1,6 @@
 # E-commerce sellers: the tools
 
-Each tool runs with `node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs <tool> ...` (see SKILL.md). Without a key, a tool reads one file a run.
+Each tool runs with one command on one line, `node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs <tool> --<input> <value> ...` (see SKILL.md). Without a key, a tool reads one file a run.
 
 ## Monthly books from a marketplace payment or ledger export (`marketplace_payments_to_monthly_books`)
 

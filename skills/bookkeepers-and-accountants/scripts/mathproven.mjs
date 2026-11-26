@@ -1,4 +1,4 @@
-// Mathproven agent tools 0.1.3. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
+// Mathproven agent tools 0.1.4. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
 // Built by scripts/build-plugin.mjs with esbuild from the TypeScript source of Mathproven's core and agents
 // packages: bundled, not minified. Each "// packages/..." line names the source file of the code after it.
 // It makes no network request and sends nothing anywhere.
@@ -1119,6 +1119,7 @@ var dormancy = /* @__PURE__ */ (() => ({
   pageTitle: "Uncashed Check Dormancy Periods by State: Vendor and Payroll, Sourced",
   description: "Each state's unclaimed property dormancy period for an uncashed vendor (accounts payable) check and an uncashed payroll check: the years after which the law presumes it abandoned, which paragraph each figure comes from, the annual report date for business holders where the source states it, and any rule for checks between businesses. Use it when someone asks how long an outstanding or stale check can sit before it is reportable as unclaimed property in a state, or when the state's holder report is due.",
   question: "How many years until an uncashed vendor check is presumed abandoned in North Carolina?",
+  subject: "uncashed vendor and payroll check dormancy periods by state",
   notAdvice: "Mathproven gives periods and dates from the cited statutes only; each law has its own conditions, exceptions, and notice steps. General information, not legal advice. Mathproven is not affiliated with any legislature or agency whose statutes are cited here.",
   memberNoun: STATE_NOUN,
   memberHelp: STATES_HELP,
@@ -1156,6 +1157,7 @@ var noticeWindows = /* @__PURE__ */ (() => ({
   pageTitle: "Unclaimed Property Owner Notice Windows by State, Before the Report",
   description: "For each state's unclaimed property law (or the state office's own holder guide): the window before the annual report in which the owner notice (due diligence letter) is mailed, the amount at which a notice is asked for, the kind of mail, what applies to an uncashed check, and the report date from the dormancy table the window counts back from. Use it when someone asks when due diligence letters go out before a state's unclaimed property report, or the dollar amount that calls for one.",
   question: "What is the window for mailing unclaimed property owner notices before the Delaware report?",
+  subject: "unclaimed property owner notice windows by state",
   notAdvice: "Mathproven gives windows, amounts and mail from the cited sources only; each law has its own conditions and exceptions. General information, not legal advice. Mathproven is not affiliated with any legislature or agency whose statutes or guides are cited here.",
   memberNoun: STATE_NOUN,
   memberHelp: STATES_HELP,
@@ -1365,6 +1367,7 @@ function entryFor(t) {
     title: t.title,
     description: `${t.description} ${ANSWER_LINE}`,
     question: t.question,
+    subject: t.subject,
     inputs: [memberInput(t), dateInput(t)],
     limits: "free",
     notAdvice: t.notAdvice,
@@ -1394,4 +1397,4 @@ function lookupEntries() {
 var pool = [...BOOKKEEPING, ...lookupEntries()];
 var names = ["bank_reconciliation_statement", "bank_reconciliation_template", "reconciliation_difference_finder", "duplicate_transactions_finder", "bank_statement_to_excel", "bank_statement_to_ofx", "bank_statement_merge", "petty_cash_reconciliation", "uncashed_check_escheat_list", "uncashed_check_dormancy_periods", "unclaimed_property_notice_windows"];
 var entries = names.map((name) => pool.find((e) => e.name === name)).filter((e) => e !== void 0);
-runCliProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.3", keyHelp: "A Mathproven key, when there is one: --key <key>. It is checked here, against Mathproven's public key, and never sent anywhere." });
+runCliProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.4", keyHelp: "A Mathproven key, when there is one: --key <key>. It is checked here, against Mathproven's public key, and never sent anywhere." });

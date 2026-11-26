@@ -1,4 +1,4 @@
-// Mathproven agent tools 0.1.3. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
+// Mathproven agent tools 0.1.4. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
 // Built by scripts/build-plugin.mjs with esbuild from the TypeScript source of Mathproven's core and agents
 // packages: bundled, not minified. Each "// packages/..." line names the source file of the code after it.
 // It makes no network request and sends nothing anywhere.
@@ -893,6 +893,7 @@ var auditThresholds = /* @__PURE__ */ (() => ({
   pageTitle: "Charity Audit Thresholds by State: audit, review, and compilation figures",
   description: `The dollar figures at which a state's charitable solicitation (or charitable trust) law names audited, reviewed or compiled financial statements for a registered charity's registration or annual report, each band with its wording ("at least", "more than", "less than"), what the figures are measured on (total revenue, contributions), and the conditions in words; a state whose source names no figure says what it asks for instead. Use it when someone asks at what revenue a nonprofit needs an audit or a CPA review for its state charity registration.`,
   question: "At what revenue does Pennsylvania ask a charity for audited financial statements?",
+  subject: "charity audit, review and compilation thresholds by state",
   notAdvice: "Mathproven gives figures only, not legal or tax advice. Rules change; the linked official source has the full wording. Mathproven is not affiliated with any agency whose rules are cited here.",
   memberNoun: STATE_NOUN,
   memberHelp: STATES_HELP,
@@ -926,6 +927,7 @@ var renewalDates = /* @__PURE__ */ (() => ({
   pageTitle: "Charity Registration Renewal Due Dates by State, from a fiscal year end",
   description: "How each state dates the renewal of a charitable solicitation registration (or the annual report that keeps it in force): a number of months or days after the fiscal year end, a day of the Nth month after it, the registration's anniversary, or a fixed calendar date, and any extension, automatic or on request; states with no charity registration say so. Use it when someone asks when a nonprofit's charity registration renewal or annual report is due in a state.",
   question: "How is the charity registration renewal due date set in Pennsylvania?",
+  subject: "charity registration renewal due dates by state",
   notAdvice: "Mathproven gives renewal rules only, not legal or tax advice. Rules change; the linked official source has the full wording. Mathproven is not affiliated with any agency whose rules are cited here.",
   memberNoun: STATE_NOUN,
   memberHelp: STATES_HELP,
@@ -1124,6 +1126,7 @@ function entryFor(t) {
     title: t.title,
     description: `${t.description} ${ANSWER_LINE}`,
     question: t.question,
+    subject: t.subject,
     inputs: [memberInput(t), dateInput(t)],
     limits: "free",
     notAdvice: t.notAdvice,
@@ -1153,4 +1156,4 @@ function lookupEntries() {
 var pool = [...NONPROFITS, ...lookupEntries()];
 var names = ["donor_retention_rate", "year_end_giving_statements", "gift_acknowledgment_checklist", "donor_deduplication", "donor_upgrades_downgrades", "donation_gift_log_template", "giving_by_fund_and_month", "lybunt_sybunt_report", "quid_pro_quo_payment_split", "charity_audit_thresholds_by_state", "charity_registration_renewal_dates_by_state"];
 var entries = names.map((name) => pool.find((e) => e.name === name)).filter((e) => e !== void 0);
-runCliProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.3", keyHelp: "A Mathproven key, when there is one: --key <key>. It is checked here, against Mathproven's public key, and never sent anywhere." });
+runCliProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.4", keyHelp: "A Mathproven key, when there is one: --key <key>. It is checked here, against Mathproven's public key, and never sent anywhere." });

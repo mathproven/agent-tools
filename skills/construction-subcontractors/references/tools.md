@@ -1,6 +1,6 @@
 # Construction subcontractors: the tools
 
-Each tool runs with `node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs <tool> ...` (see SKILL.md). Without a key, a tool reads one file a run.
+Each tool runs with one command on one line, `node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs <tool> --<input> <value> ...` (see SKILL.md). Without a key, a tool reads one file a run.
 
 ## Subcontractor pay application from a schedule of values (`pay_application_builder`)
 

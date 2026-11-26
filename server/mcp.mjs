@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Mathproven agent tools 0.1.3. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
+// Mathproven agent tools 0.1.4. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
 // Built by scripts/build-plugin.mjs with esbuild from the TypeScript source of Mathproven's core and agents
 // packages: bundled, not minified. Each "// packages/..." line names the source file of the code after it.
 // It makes no network request and sends nothing anywhere.
@@ -513,6 +513,22 @@ function serverSettings() {
   const pluginData = settingValue(process.env.CLAUDE_PLUGIN_DATA);
   return { key: pluginKey || appKey, pluginData };
 }
+function serverInstructions(entries2, titles = {}) {
+  const named = (section) => titles[section] ?? section.replace(/[-_]+/g, " ");
+  const tools = entries2.filter((e) => e.kind !== "lookup");
+  const lookups = entries2.filter((e) => e.kind === "lookup");
+  const sections = [...new Set(tools.map((e) => e.section))].map((s) => `${named(s)} (${tools.filter((e) => e.section === s).length})`);
+  const lines = [
+    `Mathproven's checked-math tools, run on this computer: ${tools.length} tool${tools.length === 1 ? "" : "s"} by section, ${sections.join(", ")}.`,
+    "Each tool recomputes its result a second way and returns it with a reconciliation certificate, or says NOT VERIFIED and names the check that failed."
+  ];
+  if (lookups.length > 0) {
+    const subjects = lookups.map((e) => e.subject ?? e.title);
+    lines.push(`It also holds ${lookups.length} lookup table${lookups.length === 1 ? "" : "s"}, each answer with its citation and official source: ${subjects.join("; ")}.`);
+  }
+  lines.push("It reads only the files a call names and its own count of the month's free runs, and sends nothing anywhere.");
+  return lines.join(" ");
+}
 function errorMessage(id, code, message, data) {
   return { jsonrpc: "2.0", id, error: data === void 0 ? { code, message } : { code, message, data } };
 }
@@ -527,6 +543,7 @@ var McpServer = class {
   constructor(options) {
     this.options = options;
     this.version = options.version ?? AGENTS_VERSION;
+    this.instructions = options.instructions ?? serverInstructions(options.entries, options.sectionTitles);
     const settings = options.settings ?? serverSettings();
     this.key = settingValue(settings.key);
     this.counter = options.counter ?? new FileRunCounter(countFilePath(settingValue(settings.pluginData)));
@@ -540,6 +557,8 @@ var McpServer = class {
   key;
   counter;
   now;
+  /** What the server holds, sent as `instructions` (serverInstructions). */
+  instructions;
   serverInfo() {
     return { name: SERVER_NAME, title: SERVER_TITLE, version: this.version };
   }
@@ -572,13 +591,13 @@ var McpServer = class {
         case "initialize": {
           const wanted = params.protocolVersion;
           const protocolVersion = typeof wanted === "string" && LEGACY_VERSIONS.includes(wanted) ? wanted : LEGACY_VERSIONS[0];
-          return { jsonrpc: "2.0", id, result: { protocolVersion, capabilities: { tools: { listChanged: false } }, serverInfo: this.serverInfo() } };
+          return { jsonrpc: "2.0", id, result: { protocolVersion, capabilities: { tools: { listChanged: false } }, serverInfo: this.serverInfo(), instructions: this.instructions } };
         }
         case "server/discover":
           return {
             jsonrpc: "2.0",
             id,
-            result: { resultType: "complete", supportedVersions: [...SUPPORTED_VERSIONS], capabilities: { tools: {} }, _meta: { [META_SERVER_INFO]: this.serverInfo() }, ttlMs: LIST_TTL_MS, cacheScope: "public" }
+            result: { resultType: "complete", supportedVersions: [...SUPPORTED_VERSIONS], capabilities: { tools: {} }, instructions: this.instructions, _meta: { [META_SERVER_INFO]: this.serverInfo() }, ttlMs: LIST_TTL_MS, cacheScope: "public" }
           };
         case "ping":
           return done({});
@@ -904,6 +923,7 @@ function entryFor(t) {
     title: t.title,
     description: `${t.description} ${ANSWER_LINE}`,
     question: t.question,
+    subject: t.subject,
     inputs: [memberInput(t), dateInput(t)],
     limits: "free",
     notAdvice: t.notAdvice,
@@ -2493,4 +2513,4 @@ var NOT_FOR_AGENTS = [
 // mp-entry:mp-entry:main
 var all = [...ENTRIES];
 var entries = all.filter((e) => e.kind !== "lookup");
-runMcpProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.3" });
+runMcpProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.4", sectionTitles: { "general": "prove the math", "nonprofits": "nonprofits and churches", "trucking": "trucking fuel tax", "crypto": "crypto proceeds and gains", "bookkeeping": "bookkeepers and accountants", "construction": "construction subcontractors", "ecommerce": "E-commerce sellers", "insurance-commissions": "insurance agency commissions", "law-trust": "law firm trust accounts", "property-management": "property managers" } });

@@ -1,6 +1,6 @@
 # Bookkeepers and accountants: the tools
 
-Each tool runs with `node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs <tool> ...` (see SKILL.md). Without a key, a tool reads one file a run (two for merge monthly bank statement exports into one ledger).
+Each tool runs with one command on one line, `node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs <tool> --<input> <value> ...` (see SKILL.md). Without a key, a tool reads one file a run (two for merge monthly bank statement exports into one ledger).
 
 ## Bank reconciliation statement: adjusted bank and book balances (`bank_reconciliation_statement`)
 

@@ -1,6 +1,6 @@
 # Law firm trust accounts: the tools
 
-Each tool runs with `node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs <tool> ...` (see SKILL.md). Without a key, a tool reads one file a run.
+Each tool runs with one command on one line, `node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs <tool> --<input> <value> ...` (see SKILL.md). Without a key, a tool reads one file a run.
 
 ## Three-way trust account reconciliation to the cent (`three_way_trust_reconciliation`)
 

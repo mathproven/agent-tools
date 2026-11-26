@@ -12,7 +12,7 @@
       "name": "mathproven",
       "source": "./",
       "description": "Checked paperwork math from Mathproven that runs where your assistant runs: prove the math, nonprofits and churches, trucking fuel tax, crypto proceeds and gains, bookkeepers and accountants, construction subcontractors, E-commerce sellers, insurance agency commissions, law firm trust accounts, property managers. Each result is recomputed a second way and comes with a reconciliation certificate, or names the check that failed. Nothing is sent to Mathproven.",
-      "version": "0.1.3"
+      "version": "0.1.4"
     }
   ]
 }

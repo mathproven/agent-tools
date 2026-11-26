@@ -1,4 +1,4 @@
-// Mathproven agent tools 0.1.3. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
+// Mathproven agent tools 0.1.4. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
 // Built by scripts/build-plugin.mjs with esbuild from the TypeScript source of Mathproven's core and agents
 // packages: bundled, not minified. Each "// packages/..." line names the source file of the code after it.
 // It makes no network request and sends nothing anywhere.
@@ -1860,6 +1860,7 @@ var lateFees = /* @__PURE__ */ (() => ({
   pageTitle: "Rent Late Fee Limits by State: Caps and Grace Periods, with Sources",
   description: "The most a state statute lets a landlord charge as a late fee on residential rent (a percent of the rent or of the unpaid rent, a flat amount, or the greater or lesser of two, by rent band where the statute has them) and how many days after the due date the statute makes the landlord wait before charging one, with the conditions in words. Use it when someone asks the legal cap on a rent late fee or the grace period for rent in a state.",
   question: "What is the most a landlord can charge as a late fee on rent in North Carolina?",
+  subject: "residential rent late fee limits and grace periods by state",
   notAdvice: "Mathproven gives figures and waiting periods from the cited statutes only; leases, cities, and counties can set lower limits or longer waits. General information, not legal advice. Mathproven is not affiliated with any legislature or agency whose statutes are cited here.",
   memberNoun: STATE_NOUN,
   memberHelp: STATES_HELP,
@@ -1901,6 +1902,7 @@ var depositRules = /* @__PURE__ */ (() => ({
   pageTitle: "Security Deposit Rules by State: Maximums, Return Periods, Interest",
   description: "Each state's residential security deposit statute: the maximum deposit it states (in months of rent, with its other tiers in words), the days it gives for returning the deposit or an itemized list after move-out and what starts each count, and whether it requires interest to be paid to the tenant. Use it when someone asks how much a landlord may take as a security deposit, or how many days a landlord has to return one, in a state.",
   question: "How many days does a Florida landlord have to return a security deposit?",
+  subject: "residential security deposit limits, return deadlines and interest by state",
   notAdvice: "Mathproven gives each statute's figures, not a statement of what anyone is required to do. Statutes differ on how days are counted and on what starts the count; the row and its source say which event the statute names.",
   memberNoun: STATE_NOUN,
   memberHelp: STATES_HELP,
@@ -2103,6 +2105,7 @@ function entryFor(t) {
     title: t.title,
     description: `${t.description} ${ANSWER_LINE}`,
     question: t.question,
+    subject: t.subject,
     inputs: [memberInput(t), dateInput(t)],
     limits: "free",
     notAdvice: t.notAdvice,
@@ -2132,4 +2135,4 @@ function lookupEntries() {
 var pool = [...PROPERTY_MANAGEMENT, ...lookupEntries()];
 var names = ["cam_reconciliation_tenant_shares", "cam_gross_up_pool_split", "base_year_expense_stop_true_up", "owner_statement_from_ledger", "security_deposit_interest_statement", "short_term_rental_payout_reconciler", "cam_reconciliation_template_workbook", "owner_statement_template_workbook", "rent_late_fee_limits", "security_deposit_rules"];
 var entries = names.map((name) => pool.find((e) => e.name === name)).filter((e) => e !== void 0);
-runCliProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.3", keyHelp: "A Mathproven key, when there is one: --key <key>. It is checked here, against Mathproven's public key, and never sent anywhere." });
+runCliProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.4", keyHelp: "A Mathproven key, when there is one: --key <key>. It is checked here, against Mathproven's public key, and never sent anywhere." });

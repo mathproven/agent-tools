@@ -1,4 +1,4 @@
-// Mathproven agent tools 0.1.3. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
+// Mathproven agent tools 0.1.4. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
 // Built by scripts/build-plugin.mjs with esbuild from the TypeScript source of Mathproven's core and agents
 // packages: bundled, not minified. Each "// packages/..." line names the source file of the code after it.
 // It makes no network request and sends nothing anywhere.
@@ -1042,6 +1042,7 @@ var trustRetention = /* @__PURE__ */ (() => ({
   pageTitle: "Trust Account Record Retention by State: Years and Court Rule Links",
   description: "How many years each jurisdiction's own court rule (its safekeeping-property rule or trust account record-keeping rule) says complete lawyer trust account (IOLTA) records are kept, and what day the period runs from (the end of the representation, the final distribution, the later or earlier of the two, the transaction itself, or the fiscal year end). Use it when someone asks how long a law firm keeps client trust account records in a state.",
   question: "How many years does Pennsylvania's rule say lawyer trust account records are kept?",
+  subject: "lawyer trust account record retention periods by state",
   notAdvice: "Mathproven gives periods as each cited rule states them. Nothing here says which records a rule covers in a particular case or what to keep or discard. Mathproven is not affiliated with any court or bar whose rules are cited here.",
   memberNoun: { one: "jurisdiction", many: "jurisdictions" },
   memberHelp: STATES_HELP,
@@ -1238,6 +1239,7 @@ function entryFor(t) {
     title: t.title,
     description: `${t.description} ${ANSWER_LINE}`,
     question: t.question,
+    subject: t.subject,
     inputs: [memberInput(t), dateInput(t)],
     limits: "free",
     notAdvice: t.notAdvice,
@@ -1267,4 +1269,4 @@ function lookupEntries() {
 var pool = [...LAW_TRUST, ...lookupEntries()];
 var names = ["three_way_trust_reconciliation", "client_trust_ledger_card", "trust_receipts_disbursements_journal", "trust_negative_balance_scan", "trust_ledgers_from_bank_statement", "earned_fees_left_in_trust", "dormant_trust_balance_report", "three_way_reconciliation_template", "trust_record_retention_by_state"];
 var entries = names.map((name) => pool.find((e) => e.name === name)).filter((e) => e !== void 0);
-runCliProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.3", keyHelp: "A Mathproven key, when there is one: --key <key>. It is checked here, against Mathproven's public key, and never sent anywhere." });
+runCliProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.4", keyHelp: "A Mathproven key, when there is one: --key <key>. It is checked here, against Mathproven's public key, and never sent anywhere." });

@@ -1,4 +1,4 @@
-// Mathproven agent tools 0.1.3. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
+// Mathproven agent tools 0.1.4. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
 // Built by scripts/build-plugin.mjs with esbuild from the TypeScript source of Mathproven's core and agents
 // packages: bundled, not minified. Each "// packages/..." line names the source file of the code after it.
 // It makes no network request and sends nothing anywhere.
@@ -197,7 +197,7 @@ var totalAgainstParts = {
   section: "general",
   kind: "check",
   title: "Check that a total equals the sum of its parts",
-  description: "Use it to check figures an assistant, a spreadsheet or another tool produced: a stated total and the amounts it should be made of, such as invoice lines, expense items, the pieces of a split payment or the lines of a budget. It adds the parts in integer cents, compares the sum with the stated total and says exactly how far off it is, then adds the parts a second way (whole-number arithmetic, last part to first) and checks that the two sums agree. The result lists every part with a running total, and the stated total, the sum and the difference. Negative parts (refunds, credits) are added as negatives; each part goes on its own line or in a JSON list. Not for totals made by multiplying (quantity times price, hours times a rate), percentages or rounding rules, and not for a whole table of rows and columns.",
+  description: "Use it to check whether a stated total is right: a total an assistant, a spreadsheet, a quote, an invoice or another tool gave, and the amounts it should be made of (the lines of an invoice, a quote or a bill, expense items, the pieces of a split payment, the lines of a budget), whether they were read from a file or typed in the question. It adds the parts in integer cents, compares the sum with the stated total and says exactly how far off it is, then adds the parts a second way (whole-number arithmetic, last part to first) and checks that the two sums agree. The result lists every part with a running total, and the stated total, the sum and the difference. Negative parts (refunds, credits) are added as negatives; each part goes on its own line or in a JSON list. Not for totals made by multiplying (quantity times price, hours times a rate), percentages or rounding rules, and not for a whole table of rows and columns.",
   question: "My assistant says these invoice lines come to $1,050.00. Do they really add up to that?",
   inputs: [
     { name: "total", kind: "amount", label: "Stated total", description: 'The total as it was given (by an assistant, a spreadsheet, an invoice or a report), for example "1,050.00" or "$1,050.00". A negative total is written -12.00 or (12.00).', required: true },

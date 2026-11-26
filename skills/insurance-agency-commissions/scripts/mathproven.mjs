@@ -1,4 +1,4 @@
-// Mathproven agent tools 0.1.3. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
+// Mathproven agent tools 0.1.4. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
 // Built by scripts/build-plugin.mjs with esbuild from the TypeScript source of Mathproven's core and agents
 // packages: bundled, not minified. Each "// packages/..." line names the source file of the code after it.
 // It makes no network request and sends nothing anywhere.
@@ -596,6 +596,7 @@ var stampingFees = /* @__PURE__ */ (() => ({
   pageTitle: "Surplus Lines Stamping Fees by State — fee rates beside the tax, sourced",
   description: "The surplus lines stamping, filing, service or transaction fee each state's stamping office, service office or state platform charges on surplus lines premium, as a percent of premium and any flat charge per filing, for the window of policy effective dates it applies to, with who sets it and what it is figured on. Use it when someone asks the stamping fee on a surplus lines (excess and surplus) policy in a home state for a policy effective date.",
   question: "What is the surplus lines stamping fee in New York for a policy effective January 15, 2027?",
+  subject: "surplus lines stamping fees by state and policy date",
   notAdvice: "Mathproven gives fees only: what each cited page sets. It does not say who pays a fee or what to charge, collect, or file. Mathproven is not affiliated with any stamping office, service office, or state agency whose page is cited here.",
   memberNoun: STATE_NOUN,
   memberHelp: STATES_HELP,
@@ -637,6 +638,7 @@ var surplusTax = /* @__PURE__ */ (() => ({
   pageTitle: "Surplus Lines Tax Rates by State — premium tax with official sources",
   description: "The surplus lines premium tax rate each state's statute (or state agency page) sets when that state is the insured's home state, with a second charge where the same official source sets one as a percent of premium (a filing platform fee, a regulatory fee, a fire marshal tax), and a flag where the rate has conditions (line of business, calendar year, multistate allocation) with the conditions in words. Use it when someone asks the surplus lines or excess lines tax rate in a home state.",
   question: "What is the surplus lines tax rate in Oregon?",
+  subject: "surplus lines premium tax rates by state",
   notAdvice: "Mathproven gives rates only: what each cited source sets. It does not say what to charge, collect, or file. Mathproven is not affiliated with any state agency whose rules are cited here.",
   memberNoun: STATE_NOUN,
   memberHelp: STATES_HELP,
@@ -838,6 +840,7 @@ function entryFor(t) {
     title: t.title,
     description: `${t.description} ${ANSWER_LINE}`,
     question: t.question,
+    subject: t.subject,
     inputs: [memberInput(t), dateInput(t)],
     limits: "free",
     notAdvice: t.notAdvice,
@@ -867,4 +870,4 @@ function lookupEntries() {
 var pool = [...INSURANCE_COMMISSIONS, ...lookupEntries()];
 var names = ["insurance_commission_calculator", "commission_statement_to_excel", "commission_summary_by_carrier", "commission_tracking_template", "commission_expected_vs_paid_reconciliation", "missing_insurance_commission_finder", "producer_commission_split_calculator", "surplus_lines_tax_on_policy_list", "surplus_lines_tax_rates", "surplus_lines_stamping_fees"];
 var entries = names.map((name) => pool.find((e) => e.name === name)).filter((e) => e !== void 0);
-runCliProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.3", keyHelp: "A Mathproven key, when there is one: --key <key>. It is checked here, against Mathproven's public key, and never sent anywhere." });
+runCliProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.4", keyHelp: "A Mathproven key, when there is one: --key <key>. It is checked here, against Mathproven's public key, and never sent anywhere." });

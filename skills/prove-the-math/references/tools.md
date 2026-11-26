@@ -1,10 +1,10 @@
 # Prove the math: the tools
 
-Each tool runs with `node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs <tool> ...` (see SKILL.md). Without a key, a tool reads one file a run.
+Each tool runs with one command on one line, `node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs <tool> --<input> <value> ...` (see SKILL.md). Without a key, a tool reads one file a run.
 
 ## Check that a total equals the sum of its parts (`check_total_against_parts`)
 
-Use it to check figures an assistant, a spreadsheet or another tool produced: a stated total and the amounts it should be made of, such as invoice lines, expense items, the pieces of a split payment or the lines of a budget. It adds the parts in integer cents, compares the sum with the stated total and says exactly how far off it is, then adds the parts a second way (whole-number arithmetic, last part to first) and checks that the two sums agree. The result lists every part with a running total, and the stated total, the sum and the difference. Negative parts (refunds, credits) are added as negatives; each part goes on its own line or in a JSON list. Not for totals made by multiplying (quantity times price, hours times a rate), percentages or rounding rules, and not for a whole table of rows and columns.
+Use it to check whether a stated total is right: a total an assistant, a spreadsheet, a quote, an invoice or another tool gave, and the amounts it should be made of (the lines of an invoice, a quote or a bill, expense items, the pieces of a split payment, the lines of a budget), whether they were read from a file or typed in the question. It adds the parts in integer cents, compares the sum with the stated total and says exactly how far off it is, then adds the parts a second way (whole-number arithmetic, last part to first) and checks that the two sums agree. The result lists every part with a running total, and the stated total, the sum and the difference. Negative parts (refunds, credits) are added as negatives; each part goes on its own line or in a JSON list. Not for totals made by multiplying (quantity times price, hours times a rate), percentages or rounding rules, and not for a whole table of rows and columns.
 
 ```
 node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs check_total_against_parts --total '<amount, such as 1,234.56>' --parts '["<amount>","<amount>"]'

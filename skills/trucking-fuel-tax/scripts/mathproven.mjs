@@ -1,4 +1,4 @@
-// Mathproven agent tools 0.1.3. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
+// Mathproven agent tools 0.1.4. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
 // Built by scripts/build-plugin.mjs with esbuild from the TypeScript source of Mathproven's core and agents
 // packages: bundled, not minified. Each "// packages/..." line names the source file of the code after it.
 // It makes no network request and sends nothing anywhere.
@@ -714,6 +714,7 @@ var fuelRates = /* @__PURE__ */ (() => ({
   pageTitle: "Quarterly Fuel Tax Rates, Third Quarter 2026: Diesel by Jurisdiction",
   description: `Diesel (special fuel) tax rates per US gallon for the quarterly fuel tax return, for ${FUEL_PERIOD}, for the member jurisdictions (the 48 contiguous states and 10 Canadian provinces), each read from an official rate table for the quarter and checked against three more, with any surcharge kept apart from the base rate. Use it when someone asks a jurisdiction's diesel fuel tax rate for the third quarter of 2026, for a quarterly fuel tax (fuel use) return.`,
   question: "What was the diesel fuel tax rate in New York for the third quarter of 2026?",
+  subject: "diesel fuel tax rates by state and province, third quarter 2026",
   notAdvice: "Mathproven gives rates only: it does not say what is owed or what to file. Mathproven is not affiliated with any agency or organization whose table is cited here.",
   memberNoun: { one: "jurisdiction", many: "jurisdictions" },
   memberHelp: "a member jurisdiction's two-letter code: one of the 48 contiguous states (OH, NY) or a Canadian province (ON, QC)",
@@ -930,6 +931,7 @@ function entryFor(t) {
     title: t.title,
     description: `${t.description} ${ANSWER_LINE}`,
     question: t.question,
+    subject: t.subject,
     inputs: [memberInput(t), dateInput(t)],
     limits: "free",
     notAdvice: t.notAdvice,
@@ -959,4 +961,4 @@ function lookupEntries() {
 var pool = [...TRUCKING, ...lookupEntries()];
 var names = ["fuel_tax_quarterly_worksheet", "fuel_card_ledger_by_jurisdiction", "truck_miles_per_gallon_by_unit", "trucking_cost_per_mile", "mileage_and_fuel_log_template", "fuel_tax_rates_third_quarter_2026"];
 var entries = names.map((name) => pool.find((e) => e.name === name)).filter((e) => e !== void 0);
-runCliProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.3", keyHelp: "A Mathproven key, when there is one: --key <key>. It is checked here, against Mathproven's public key, and never sent anywhere." });
+runCliProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.4", keyHelp: "A Mathproven key, when there is one: --key <key>. It is checked here, against Mathproven's public key, and never sent anywhere." });

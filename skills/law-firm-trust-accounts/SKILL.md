@@ -1,11 +1,11 @@
 ---
 name: law-firm-trust-accounts
-description: "Checked math for law firm trust accounts, run where the assistant runs, on the person's own records and figures: three-way trust account reconciliation to the cent; client trust ledger card: one client, balance after every line; trust receipts and disbursements journal with client subtotals; trust account scan for client ledgers below zero, by date; client trust ledgers rebuilt from a bank statement export; and 4 more. Each tool recomputes its result a second way and returns it with a reconciliation certificate, or says NOT VERIFIED and names the check that failed. Nothing is sent to Mathproven. Use it when someone asks, for example: \"Can you do the three-way reconciliation of our trust account for March 31? The bank shows $48,250, the checkbook $49,199.25, and here are the client balances and outstanding checks.\" or \"Can you make the trust ledger card for the Cedar closing matter from this export and check the balance never went negative?\""
+description: "Checked math for law firm trust accounts, run where the assistant runs. Lookup tables, each answer with its citation and official source: lawyer trust account record retention periods by state. Tools for the person's own records and figures: three-way trust account reconciliation to the cent; client trust ledger card: one client, balance after every line; trust receipts and disbursements journal with client subtotals; and 5 more. Each tool recomputes its result a second way and returns it with a reconciliation certificate, or says NOT VERIFIED and names the check that failed. Nothing is sent to Mathproven. Use it when someone asks, for example: \"Can you do the three-way reconciliation of our trust account for March 31? The bank shows $48,250, the checkbook $49,199.25, and here are the client balances and outstanding checks.\" or \"Can you make the trust ledger card for the Cedar closing matter from this export and check the balance never went negative?\""
 license: "Proprietary. See LICENSE in this folder."
 compatibility: "Needs Node.js 18 or later and nothing else. Runs offline: it reads only the files a command names and sends nothing to Mathproven."
 metadata:
   author: "OpenSlot LLC"
-  version: "0.1.3"
+  version: "0.1.4"
   homepage: "https://mathproven.com/agents/?ref=marketplace-claude-plugin"
 ---
 
@@ -15,7 +15,13 @@ These tools run Mathproven's own calculations on the person's files and figures,
 
 ## How to run a tool
 
-The script is `scripts/mathproven.mjs` in this skill's folder (written below as `${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs`; where that variable is not set, use this folder's path). It needs Node.js 18 or later and nothing else.
+The script is `scripts/mathproven.mjs` in this skill's folder (written below as `${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs`; where that variable is not set, use this folder's path). It needs Node.js 18 or later and nothing else. A tool runs with one command, on one line:
+
+```
+node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs <tool> --<input> <value> --<input> <value> ...
+```
+
+Keep the whole command on one line, with every value written in it: no shell variables, no line breaks, and no script around it. Put each value in single quotes, so a dollar sign or a backtick in it stays as written (in PowerShell a ' inside is written ''). A value of several lines (a rate table, say) joins single-quoted lines with a line break written apart from them: `('TX 0.2500' + "`n" + 'OK 0.1850')` in PowerShell, `$'TX 0.2500\nOK 0.1850'` in bash (where a ' or \ inside is written \' or \\). Never put a value in double quotes in PowerShell: it reads a dollar sign there as the start of a variable. Windows PowerShell 5.1 drops the double quotes inside an argument, so `--json` does not work there: give each input as `--<input> <value>`.
 
 - `node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs list` lists the tools here; `node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs describe <tool>` prints one tool's inputs.
 - Every input is given as `--<input> <value>`, or as `--<input>=<value>` (for a value that starts with `--`), or all at once as `--json '{"<input>": "<value>"}'`. A file input takes the path to a .csv or .xlsx file, or the CSV text itself.

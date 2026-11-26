@@ -1,6 +1,6 @@
 # Property managers: the tools
 
-Each tool runs with `node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs <tool> ...` (see SKILL.md). Without a key, a tool reads one file a run.
+Each tool runs with one command on one line, `node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs <tool> --<input> <value> ...` (see SKILL.md). Without a key, a tool reads one file a run.
 
 ## CAM reconciliation: common area costs split by tenant square footage (`cam_reconciliation_tenant_shares`)
 
@@ -86,8 +86,8 @@ Inputs:
 - `--periodStart` (needed): Period start. The first day of the statement period, YYYY-MM-DD.
 - `--periodEnd` (needed): Period end. The last day of the statement period, YYYY-MM-DD.
 - `--openingBalance` (optional): Opening balance. Optional. The balance carried in from last period. Without it, zero.
-- `--managementFeePercent` (optional): Management fee percent. Optional. The management fee as a percent of income, such as 8. Without it, no fee.
-- `--feeOnIncomeContaining` (optional): Fee only on income lines containing. Optional. A word such as "rent": the fee is figured only on income lines whose description contains it, ignoring case. Without it, on all income.
+- `--managementFeePercent` (optional): Management fee percent. Optional. The management fee percent, such as 8. It is taken on every income line (late fees and other income too) unless "feeOnIncomeContaining" names the lines it is on. Without it, no fee.
+- `--feeOnIncomeContaining` (optional): Fee only on income lines containing. Needed when the fee is on rent only, or on any part of the income: a word those income lines' descriptions contain, such as "rent" for a fee on rent. The fee is then figured only on income lines whose description contains it, ignoring case. Without it, the fee is taken on all income, late fees and other income included.
 - `--reserve` (optional): Reserve held. Optional. A reserve the manager keeps; a warning shows when the closing balance is below it.
 - `--owner` (optional): Owner. Optional. The owner’s name, for the statement.
 - `--property` (optional): Property. Optional. The property, for the statement.

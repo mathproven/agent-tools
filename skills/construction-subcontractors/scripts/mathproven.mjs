@@ -1,4 +1,4 @@
-// Mathproven agent tools 0.1.3. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
+// Mathproven agent tools 0.1.4. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
 // Built by scripts/build-plugin.mjs with esbuild from the TypeScript source of Mathproven's core and agents
 // packages: bundled, not minified. Each "// packages/..." line names the source file of the code after it.
 // It makes no network request and sends nothing anywhere.
@@ -754,6 +754,7 @@ var promptPay = /* @__PURE__ */ (() => ({
   pageTitle: "State Prompt Payment Deadlines for Construction: Days, Interest, Statutes",
   description: "Each state's prompt payment statute for construction, public and private jobs: the days an owner has to pay the prime contractor, the days a contractor has to pay a subcontractor after being paid, what starts each count, and the late-payment interest rate the section states (a fixed rate, or the section's floating rate in words). Use it when someone asks how long an owner or general contractor has to pay on a construction job in a state, or what interest a late construction payment carries.",
   question: "How many days does a contractor in Ohio have to pay a subcontractor, and what interest applies when it is late?",
+  subject: "construction prompt payment deadlines and late-payment interest by state",
   notAdvice: "Mathproven gives days and rates as each cited section states them. Nothing here says whether a section applies to a particular contract or what to do about a late payment. Mathproven is not affiliated with any legislature or agency whose statutes are cited here.",
   memberNoun: STATE_NOUN,
   memberHelp: STATES_HELP,
@@ -792,6 +793,7 @@ var retainage = /* @__PURE__ */ (() => ({
   pageTitle: "State Retainage Limits — public and private job caps with statute links",
   description: "The general retainage rate a state statute sets for what may be held back from a progress payment on public and on private construction jobs, where a statute sets a number, with a flag where the section attaches conditions to that rate (a step-down part-way through, a contract-size threshold, a bond condition) and the conditions in words. Use it when someone asks the maximum retainage or retention percentage on a construction contract in a state.",
   question: "What is the retainage limit on a public job in California?",
+  subject: "construction retainage limits on public and private jobs by state",
   notAdvice: "Mathproven gives the general rate from the cited statutes on the checked date in each row; rules change. General information, not advice.",
   memberNoun: STATE_NOUN,
   memberHelp: STATES_HELP,
@@ -996,6 +998,7 @@ function entryFor(t) {
     title: t.title,
     description: `${t.description} ${ANSWER_LINE}`,
     question: t.question,
+    subject: t.subject,
     inputs: [memberInput(t), dateInput(t)],
     limits: "free",
     notAdvice: t.notAdvice,
@@ -1025,4 +1028,4 @@ function lookupEntries() {
 var pool = [...CONSTRUCTION, ...lookupEntries()];
 var names = ["pay_application_builder", "pay_application_checker", "pay_application_template_workbook", "schedule_of_values_builder", "progress_billing_statement", "retainage_calculator", "retainage_tracker_release_invoice", "lien_waiver_generator", "late_payment_interest_calculator", "over_under_billing_wip_schedule", "prevailing_wage_fringe_credit", "prompt_payment_deadlines", "retainage_limits"];
 var entries = names.map((name) => pool.find((e) => e.name === name)).filter((e) => e !== void 0);
-runCliProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.3", keyHelp: "A Mathproven key, when there is one: --key <key>. It is checked here, against Mathproven's public key, and never sent anywhere." });
+runCliProcess({ entries, ref: "marketplace-claude-plugin", version: "0.1.4", keyHelp: "A Mathproven key, when there is one: --key <key>. It is checked here, against Mathproven's public key, and never sent anywhere." });

@@ -1,11 +1,11 @@
 ---
 name: property-managers
-description: "Checked math for property managers, run where the assistant runs, on the person's own records and figures: CAM reconciliation: common area costs split by tenant square footage; CAM gross-up: variable expenses grossed up to an occupancy, then split by tenant share; base year and expense stop: each tenant’s share of operating expenses above the base; owner statement for a managed rental from a ledger; security deposit interest and itemized deposit statement; short-term rental payouts matched to bank deposits; and 4 more. Each tool recomputes its result a second way and returns it with a reconciliation certificate, or says NOT VERIFIED and names the check that failed. Nothing is sent to Mathproven. Use it when someone asks, for example: \"Can you split this year’s common area costs among my tenants by square footage, with a 10% admin fee?\" or \"Our building was 80% occupied last year. Can you gross up the variable CAM expenses to 95% and work out each tenant’s share?\""
+description: "Checked math for property managers, run where the assistant runs. Lookup tables, each answer with its citation and official source: residential rent late fee limits and grace periods by state; residential security deposit limits, return deadlines and interest by state. Tools for the person's own records and figures: CAM reconciliation: common area costs split by tenant square footage; CAM gross-up: variable expenses grossed up to an occupancy, then split by tenant share; and 6 more. Each tool recomputes its result a second way and returns it with a reconciliation certificate, or says NOT VERIFIED and names the check that failed. Nothing is sent to Mathproven. Use it when someone asks, for example: \"Can you split this year’s common area costs among my tenants by square footage, with a 10% admin fee?\" or \"Our building was 80% occupied last year. Can you gross up the variable CAM expenses to 95% and work out each tenant’s share?\""
 license: "Proprietary. See LICENSE in this folder."
 compatibility: "Needs Node.js 18 or later and nothing else. Runs offline: it reads only the files a command names and sends nothing to Mathproven."
 metadata:
   author: "OpenSlot LLC"
-  version: "0.1.3"
+  version: "0.1.4"
   homepage: "https://mathproven.com/agents/?ref=marketplace-claude-plugin"
 ---
 
@@ -15,7 +15,13 @@ These tools run Mathproven's own calculations on the person's files and figures,
 
 ## How to run a tool
 
-The script is `scripts/mathproven.mjs` in this skill's folder (written below as `${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs`; where that variable is not set, use this folder's path). It needs Node.js 18 or later and nothing else.
+The script is `scripts/mathproven.mjs` in this skill's folder (written below as `${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs`; where that variable is not set, use this folder's path). It needs Node.js 18 or later and nothing else. A tool runs with one command, on one line:
+
+```
+node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs <tool> --<input> <value> --<input> <value> ...
+```
+
+Keep the whole command on one line, with every value written in it: no shell variables, no line breaks, and no script around it. Put each value in single quotes, so a dollar sign or a backtick in it stays as written (in PowerShell a ' inside is written ''). A value of several lines (a rate table, say) joins single-quoted lines with a line break written apart from them: `('TX 0.2500' + "`n" + 'OK 0.1850')` in PowerShell, `$'TX 0.2500\nOK 0.1850'` in bash (where a ' or \ inside is written \' or \\). Never put a value in double quotes in PowerShell: it reads a dollar sign there as the start of a variable. Windows PowerShell 5.1 drops the double quotes inside an argument, so `--json` does not work there: give each input as `--<input> <value>`.
 
 - `node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs list` lists the tools here; `node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs describe <tool>` prints one tool's inputs.
 - Every input is given as `--<input> <value>`, or as `--<input>=<value>` (for a value that starts with `--`), or all at once as `--json '{"<input>": "<value>"}'`. A file input takes the path to a .csv or .xlsx file, or the CSV text itself.

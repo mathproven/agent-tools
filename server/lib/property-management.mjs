@@ -1,4 +1,4 @@
-// Mathproven agent tools 0.1.3. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
+// Mathproven agent tools 0.1.4. Copyright 2026 OpenSlot LLC; see LICENSE and THIRD-PARTY-NOTICES.md.
 // Built by scripts/build-plugin.mjs with esbuild from the TypeScript source of Mathproven's core and agents
 // packages: bundled, not minified. Each "// packages/..." line names the source file of the code after it.
 // It makes no network request and sends nothing anywhere.
@@ -1902,8 +1902,8 @@ var ownerStatements = {
     { name: "periodStart", kind: "date", label: "Period start", description: "The first day of the statement period, YYYY-MM-DD.", required: true },
     { name: "periodEnd", kind: "date", label: "Period end", description: "The last day of the statement period, YYYY-MM-DD.", required: true },
     { name: "openingBalance", kind: "amount", label: "Opening balance", description: "Optional. The balance carried in from last period. Without it, zero.", required: false },
-    { name: "managementFeePercent", kind: "number", label: "Management fee percent", description: "Optional. The management fee as a percent of income, such as 8. Without it, no fee.", required: false },
-    { name: "feeOnIncomeContaining", kind: "text", label: "Fee only on income lines containing", description: 'Optional. A word such as "rent": the fee is figured only on income lines whose description contains it, ignoring case. Without it, on all income.', required: false },
+    { name: "managementFeePercent", kind: "number", label: "Management fee percent", description: 'Optional. The management fee percent, such as 8. It is taken on every income line (late fees and other income too) unless "feeOnIncomeContaining" names the lines it is on. Without it, no fee.', required: false },
+    { name: "feeOnIncomeContaining", kind: "text", label: "Fee only on income lines containing", description: `Needed when the fee is on rent only, or on any part of the income: a word those income lines' descriptions contain, such as "rent" for a fee on rent. The fee is then figured only on income lines whose description contains it, ignoring case. Without it, the fee is taken on all income, late fees and other income included.`, required: false },
     { name: "reserve", kind: "amount", label: "Reserve held", description: "Optional. A reserve the manager keeps; a warning shows when the closing balance is below it.", required: false },
     { name: "owner", kind: "text", label: "Owner", description: "Optional. The owner’s name, for the statement.", required: false },
     { name: "property", kind: "text", label: "Property", description: "Optional. The property, for the statement.", required: false },

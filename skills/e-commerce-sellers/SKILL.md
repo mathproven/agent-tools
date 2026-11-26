@@ -1,11 +1,11 @@
 ---
 name: e-commerce-sellers
-description: "Checked math for E-commerce sellers, run where the assistant runs, on the person's own records and figures: monthly books from a marketplace payment or ledger export; journal entry for one marketplace payout, matched to the bank deposit; sales tax collected by ship-to state from an order export; sales by product from an orders export; online seller bookkeeping workbook (Excel template); profit, margin and break-even price on one item sold online; economic nexus thresholds for remote sellers, by state. Each tool recomputes its result a second way and returns it with a reconciliation certificate, or says NOT VERIFIED and names the check that failed. Nothing is sent to Mathproven. Use it when someone asks, for example: \"Here is my shop's payment account export for March and April. Can you total it by month and give me a journal entry for each month?\" or \"Can you turn this payout's rows into a journal entry and check it against the deposit in my bank?\""
+description: "Checked math for E-commerce sellers, run where the assistant runs. Lookup tables, each answer with its citation and official source: sales tax economic nexus thresholds for remote sellers by state. Tools for the person's own records and figures: monthly books from a marketplace payment or ledger export; journal entry for one marketplace payout, matched to the bank deposit; sales tax collected by ship-to state from an order export; sales by product from an orders export; online seller bookkeeping workbook (Excel template); and 1 more. Each tool recomputes its result a second way and returns it with a reconciliation certificate, or says NOT VERIFIED and names the check that failed. Nothing is sent to Mathproven. Use it when someone asks, for example: \"Here is my shop's payment account export for March and April. Can you total it by month and give me a journal entry for each month?\" or \"Can you turn this payout's rows into a journal entry and check it against the deposit in my bank?\""
 license: "Proprietary. See LICENSE in this folder."
 compatibility: "Needs Node.js 18 or later and nothing else. Runs offline: it reads only the files a command names and sends nothing to Mathproven."
 metadata:
   author: "OpenSlot LLC"
-  version: "0.1.3"
+  version: "0.1.4"
   homepage: "https://mathproven.com/agents/?ref=marketplace-claude-plugin"
 ---
 
@@ -15,7 +15,13 @@ These tools run Mathproven's own calculations on the person's files and figures,
 
 ## How to run a tool
 
-The script is `scripts/mathproven.mjs` in this skill's folder (written below as `${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs`; where that variable is not set, use this folder's path). It needs Node.js 18 or later and nothing else.
+The script is `scripts/mathproven.mjs` in this skill's folder (written below as `${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs`; where that variable is not set, use this folder's path). It needs Node.js 18 or later and nothing else. A tool runs with one command, on one line:
+
+```
+node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs <tool> --<input> <value> --<input> <value> ...
+```
+
+Keep the whole command on one line, with every value written in it: no shell variables, no line breaks, and no script around it. Put each value in single quotes, so a dollar sign or a backtick in it stays as written (in PowerShell a ' inside is written ''). A value of several lines (a rate table, say) joins single-quoted lines with a line break written apart from them: `('TX 0.2500' + "`n" + 'OK 0.1850')` in PowerShell, `$'TX 0.2500\nOK 0.1850'` in bash (where a ' or \ inside is written \' or \\). Never put a value in double quotes in PowerShell: it reads a dollar sign there as the start of a variable. Windows PowerShell 5.1 drops the double quotes inside an argument, so `--json` does not work there: give each input as `--<input> <value>`.
 
 - `node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs list` lists the tools here; `node ${CLAUDE_SKILL_DIR}/scripts/mathproven.mjs describe <tool>` prints one tool's inputs.
 - Every input is given as `--<input> <value>`, or as `--<input>=<value>` (for a value that starts with `--`), or all at once as `--json '{"<input>": "<value>"}'`. A file input takes the path to a .csv or .xlsx file, or the CSV text itself.
